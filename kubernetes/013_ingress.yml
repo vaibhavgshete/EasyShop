@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: easy-shop-ingress
+  namespace: easy-shop-ns
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+          service:
+            name: easy-shop-svc
+            port:
+              number: 80
+ 

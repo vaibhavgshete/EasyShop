@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: easy-shop-redis-svc
+  namespace: easy-shop-ns
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    app: easy-shop-redis

@@ -1,0 +1,20 @@
+{{- if .Values.migration.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: easy-shop-migration
+  namespace: {{ .Values.namespace }}
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: migration
+        image: {{ .Values.migration.image }}
+        envFrom:
+          - configMapRef:
+              name: easy-shop-config
+          - secretRef:
+              name: easy-shop-secret
+{{- end }}

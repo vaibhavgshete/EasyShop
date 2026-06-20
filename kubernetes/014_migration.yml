@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: easy-shop-migration
+  namespace: easy-shop-ns
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: migration
+        image: vaibhav1399/easy-shop-migration:latest
+        envFrom:
+          - configMapRef:
+              name: easy-shop-config
+          - secretRef:
+              name: easy-shop-secret

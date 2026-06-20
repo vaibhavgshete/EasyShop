@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: easy-shop-config
+  namespace: easy-shop-ns
+data:
+  MONGODB_URI:  mongodb://easy-shop-db.easy-shop-ns.svc.cluster.local:27017/easyshop
+  REDIS_URI: redis://redis:6379
+  NODE_ENV: production

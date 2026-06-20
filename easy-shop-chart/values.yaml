@@ -1,0 +1,82 @@
+# Default values for easy-shop-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Replica count for the main deployment
+replicaCount: 5
+
+# Image configuration
+image:
+  repository: vaibhav1399/easy-shop-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+
+# Resource configuration
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  host: localhost
+
+# Autoscaling configuration
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+# MongoDB configuration
+mongodb:
+  image: mongo:latest
+  storageSize: 5Gi
+  resources:
+    requests:
+      cpu: "200m"
+      memory: "256Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+
+# Redis configuration
+redis:
+  enabled: true
+  image: redis:7.0-alpine
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+
+# Migration job configuration
+migration:
+  image: vaibhav1399/easy-shop-migration:latest
+  enabled: true
+
+# Namespace
+namespace: easy-shop-ns-helm
+
+# Configuration variables
+config:
+  NODE_ENV: production
+  MONGODB_URI: "mongodb://easy-shop-db.easy-shop-ns.svc.cluster.local:27017/easyshop"
+  REDIS_URI: "redis://easy-shop-redis-svc:6379"
+
+# Secrets
+secret:
+  JWT_SECRET: "e5e425764a34a2117ec2028bd53d6f1388e7b90aeae9fa7735f2469ea3a6cc8c"
+  NEXTAUTH_SECRET: "HmaFjYZ2jbUK7Ef+wZrBiJei4ZNGBAJ5IdiOGAyQegw="

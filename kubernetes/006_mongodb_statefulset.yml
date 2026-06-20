@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: easy-shop-db
+  namespace: easy-shop-ns
+spec:
+  selector:
+    matchLabels:
+      app: easy-shop-db # has to match .spec.template.metadata.labels
+  serviceName: easy-shop-db
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: easy-shop-db # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: easy-shop-db
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+          name: easy-shop-db
+        volumeMounts:
+        - name: easy-shop-db-data
+          mountPath: /data/db
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+        - name: easy-shop-db-data
+          persistentVolumeClaim:
+            claimName: easy-shop-pvc
+
